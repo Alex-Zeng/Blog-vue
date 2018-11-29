@@ -4,13 +4,13 @@
         <div class="grid-content bg-purple-dark">
           <el-header>
             <el-col :span="6">
-             <el-dropdown @command="handleCommand">
+             <el-dropdown >
             <el-button type="primary">
               项目管理<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown" >
-              <el-dropdown-item :key="key" v-for="(value, key) in project_list" command="key">{{key}}-{{value}}</el-dropdown-item>
-              <el-dropdown-item command="+">添加项目</el-dropdown-item>
+              <el-dropdown-item :key="key" v-for="(value, key) in project_list" @click.native="go_project(key,value)" >{{key}}-{{value}}</el-dropdown-item>
+              <el-dropdown-item @click.native="add_pro">添加项目</el-dropdown-item>
             </el-dropdown-menu>
             </el-dropdown>
               <el-dropdown>
@@ -75,25 +75,25 @@ export default {
       this.$router.push({path: '/login'})
     },
     to_create_project: function () {
-      console.log('222')
       this.$router.push({path: '/create_project'})
     },
     get_project_list: function () {
       // 请求项目列表
       this.$axios.get('api/get_project_list').then(response => {
         let data = response.data.data
-
         this.project_list = data.list
-        localStorage.setItem('pros', JSON.stringify(data.list))
+        localStorage.setItem('pros', JSON.stringify(this.project_list))
         // console.log('current_pro_id=' + localStorage.get('current_pro_id'))
       }).catch(function (error) {
         console.log(error)
       })
     },
-    handleCommand: function (command) {
-      if (command === '+') {
-        this.to_create_project()
-      }
+    add_pro: function () {
+      this.to_create_project()
+    },
+    go_project: function (key, value) {
+      localStorage.setItem('current_project', JSON.stringify(key))
+      this.$router.push({path: '/Project', query: {project_id: key, project_name: value}})
     }
   }
 }

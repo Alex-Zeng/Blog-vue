@@ -20,25 +20,19 @@ new Vue({
   template: '<App/>'
 })
 
-// 添加响应拦截器
-let lanjie = axios.interceptors.response.use(
-  response => {
-    console.log(response.data)
-    if (response.data.status === 2) {
-      let msg = response.data.msg
-      localStorage.clear()
-      this.$message({
-        type: 'success',
-        message: msg,
-        center: true,
-        iconClass: ''
-      })
-      router.replace()({
-        path: 'Login',
-        query: {redirect: router.currentRoute.fullPath}
-      })
-    }
-    return response
-  }
-)
-axios.interceptors.request.eject(lanjie)
+// // 添加响应拦截器
+// let lanjie = axios.interceptors.response.use(
+//   response => {
+//     if (response.data.status === 2) {
+//       let msg = response.data.msg
+//       localStorage.clear()
+//       alert(msg)
+//       router.replace()({
+//         path: 'Login',
+//         query: {redirect: router.currentRoute.fullPath}
+//       })
+//     }
+//     return response
+//   }
+// )
+// axios.interceptors.request.eject(lanjie)

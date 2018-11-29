@@ -3,9 +3,9 @@
       <Header></Header>
     <el-row>
       <el-col :span="8" :offset="8">
-        <el-card shadow="always" :key="key" v-for="(value, key) in this.project_list" command="key">
+        <div shadow="always" :key="key" v-for="(value, key) in project_list" command="key">
           <el-button type="primary" round @click="to_project(key,value)">{{value}}</el-button>
-        </el-card>
+        </div>
       </el-col>
     </el-row>
     <el-row class="footer">
@@ -25,9 +25,12 @@ export default {
   components: {
     Header
   },
+  mounted () {
+    this.project_list = JSON.parse(localStorage.getItem('pros'))
+  },
   data () {
     return {
-      project_list: JSON.parse(localStorage.getItem('pros'))
+      project_list: {}
     }
   },
   methods: {
